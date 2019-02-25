@@ -1,0 +1,6 @@
+C:\Users\cristian.scaueru\source\repos\MySkype\MySkypeCommon\bin\Release\MySkypeCommon.dll
+C:\Users\cristian.scaueru\source\repos\MySkype\MySkypeCommon\bin\Release\MySkypeCommon.pdb
+C:\Users\cristian.scaueru\source\repos\MySkype\MySkypeCommon\obj\Release\MySkypeCommon.csproj.CoreCompileInputs.cache
+C:\Users\cristian.scaueru\source\repos\MySkype\MySkypeCommon\obj\Release\MySkypeCommon.dll
+C:\Users\cristian.scaueru\source\repos\MySkype\MySkypeCommon\obj\Release\MySkypeCommon.pdb
+C:\Users\cristian.scaueru\source\repos\MySkype\MySkypeCommon\obj\Release\MySkypeCommon.csprojAssemblyReference.cache
