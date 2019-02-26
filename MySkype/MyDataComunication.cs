@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MyUdp;
 using NAudio.Wave;
+using System.Drawing;
 
 namespace MySkypeCommon
 {
@@ -19,7 +20,7 @@ namespace MySkypeCommon
         protected WaveInEvent WaveIn { get; set; }
         protected WaveOut WaveOut { get; set; }
         protected bool IsRecording { get; set; }
-        public MyDataComunication OpenCommunication(string ipAddress,Action<byte[]> callbackDataForImageProcessing)
+        public MyDataComunication OpenCommunication(string ipAddress,Action<Bitmap> callbackDataForImageProcessing)
         {
             VoiceUdpClient = new MyUdpClient(ipAddress, 27000);
             VoiceUdpClient.OpenConnection();
@@ -58,7 +59,8 @@ namespace MySkypeCommon
             return this;
         }
 
-        public void SendImage(byte[] byteArray)
+
+        public void SendImage(Bitmap byteArray)
         {
             ImageUdpClient.Send(byteArray);
         }

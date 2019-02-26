@@ -1,9 +1,11 @@
 ﻿using MyUdp;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,7 +23,7 @@ namespace MySkypeCommon
             listener = new TcpListener(localAdd, port);
         }
 
-        public void AcceptClients(Action<byte[]> callbackForReceiveData)
+        public void AcceptClients(Action<Bitmap> callbackForReceiveData)
         {
             listener.Start();
             Task.Factory.StartNew(() => client = listener.AcceptTcpClient());
@@ -39,12 +41,12 @@ namespace MySkypeCommon
             });
         }
 
-        protected void Receive(Action<byte[]> callbackForReceiveData = null)
+        protected void Receive(Action<Bitmap> callbackForReceiveData = null)
         {
-            NetworkStream nwStream = client.GetStream();
-            byte[] buffer = new byte[client.ReceiveBufferSize];
-            int bytesRead = nwStream.Read(buffer, 0, client.ReceiveBufferSize);
-            callbackForReceiveData(buffer);
+            NetworkStream stream = client.GetStream();
+            BinaryFormatter formatter = new BinaryFormatter();
+            Bitmap img = (Bitmap)formatter.Deserialize(stream);
+            callbackForReceiveData(img);
         }
 
         public void CloseConnection()

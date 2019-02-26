@@ -37,15 +37,14 @@ namespace MySkype
             var frame = new Mat();
             capture.ImageGrabbed += (s, ex) => {
                 capture.Read(frame);
-                var byteArray = ConvertorHelper.ConvertByteMapToByteArray(frame.Bitmap);
-                DataComunication.SendImage(byteArray);
+                DataComunication.SendImage(frame.Bitmap);
             };
             capture.Start();
 
-            DataComunication.OpenCommunication(IpInput.Text, (bytes) => {
+            DataComunication.OpenCommunication(IpInput.Text, (img) => {
                 this.Dispatcher.Invoke(() =>
                 {
-                    //MyImage.Source = ConvertorHelper.ConvertByteArrayToBitmapImage(bytes);
+                    MyImage.Source = ConvertorHelper.ToBitmapImage(img);
                 });
             });
         }

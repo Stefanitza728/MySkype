@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Net.Sockets;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace MyUdp
 {
@@ -23,9 +26,10 @@ namespace MyUdp
             nwStream = client.GetStream();
         }
 
-        public void Send(byte[] data)
+        public void Send(Bitmap data)
         {
-            nwStream.Write(data, 0, data.Length);
+            BinaryFormatter formatter = new BinaryFormatter();
+            formatter.Serialize(nwStream, data);
         }
         public void CloseConnection()
         {
