@@ -10,22 +10,26 @@ namespace MySkypeCommon
 {
     public class MyDataComunication
     {
-        protected MyUdpClient UdpClient { get; set; }
-        protected MyUdpServer UdpServer { get; set; }
+        protected MyUdpClient VoiceUdpClient { get; set; }
+        protected MyUdpClient ImageUdpClient { get; set; }
+        protected MyUdpServer VoiceUdpServer { get; set; }
+        protected MyUdpServer ImageUdpServer { get; set; }
         protected Task RecordProcess { get; set; }
         protected Task PlayProcess { get; set; }
         protected WaveInEvent WaveIn { get; set; }
         protected WaveOut WaveOut { get; set; }
         protected bool IsRecording { get; set; }
-        public MyDataComunication OpenCommunication(string ipAddress)
+        public MyDataComunication OpenCommunication(string ipAddress,Action<byte[]> callbackDataForImageProcessing)
         {
-            UdpClient = new MyUdpClient(ipAddress, 27000);
-            UdpClient.OpenConnection();
+            VoiceUdpClient = new MyUdpClient(ipAddress, 27000);
+            VoiceUdpClient.OpenConnection();
+            ImageUdpClient = new MyUdpClient(ipAddress, 27001);
+            ImageUdpClient.OpenConnection();
             IsRecording = true;
             RecordProcess = Task.Run(() => {
                 WaveIn = new WaveInEvent();
                 WaveIn.DataAvailable += new EventHandler<WaveInEventArgs>((s, x) => {
-                    UdpClient.Send(x.Buffer);
+                    VoiceUdpClient.Send(x.Buffer);
                 });
 
                 WaveIn.StartRecording();
@@ -40,20 +44,31 @@ namespace MySkypeCommon
             WaveOut.Init(bufferProvider);
             WaveOut.Play();
 
-            UdpServer = new MyUdpServer(Constants.LocalLisenerConnection, 27000);
-            UdpServer.AcceptClients((bytes) => {
+            VoiceUdpServer = new MyUdpServer(Constants.LocalLisenerConnection, 27000);
+            VoiceUdpServer.AcceptClients((bytes) => {
                 bufferProvider.AddSamples(bytes, 0, bytes.Length);
             });
-            PlayProcess = Task.Run(async () => await UdpServer.WaitForClients);
+
+            PlayProcess = Task.Run(async () => await VoiceUdpServer.WaitForClients);
+
+            ImageUdpServer = new MyUdpServer(Constants.LocalLisenerConnection, 27001);
+
+            ImageUdpServer.AcceptClients(callbackDataForImageProcessing);
             return this;
+        }
+
+        public void SendImage(byte[] byteArray)
+        {
+            ImageUdpClient.Send(byteArray);
         }
 
         public MyDataComunication CloseCommunication()
         {
             IsRecording = false;
             WaveOut.Stop();
-            UdpClient.CloseConnection();
-            UdpServer.CloseConnection();
+            VoiceUdpClient.CloseConnection();
+            ImageUdpClient.CloseConnection();
+            VoiceUdpServer.CloseConnection();
             RecordProcess = null;
             PlayProcess = null;
             return this;

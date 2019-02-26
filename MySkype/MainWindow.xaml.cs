@@ -15,6 +15,8 @@ namespace MySkype
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        
         protected MyDataComunication DataComunication { get; set; }
 
         public MainWindow()
@@ -30,46 +32,29 @@ namespace MySkype
         private void StartButton_Click(object sender, RoutedEventArgs e)
         {
             SetStatus("Running");
-            DataComunication.OpenCommunication(IpInput.Text);
+            DataComunication.OpenCommunication(IpInput.Text,(bytes) => {
+                this.Dispatcher.Invoke(() =>
+                {
+                        MyImage.Source = ConvertorHelper.ConvertByteArrayToBitmapImage(
+                                ConvertorHelper.Decompress(bytes)
+                            );
+                });
+            });
+
+            var capture = new VideoCapture();
+            var frame = new Mat();
+            capture.ImageGrabbed += (s, ex) => {
+                frame = capture.QuerySmallFrame();
+                var byteArray = ConvertorHelper.Compress(ConvertorHelper.ConvertByteMapToByteArray(frame.Bitmap));
+                DataComunication.SendImage(byteArray);
+            };
+            capture.Start();
         }
 
         private void StopButton_Click(object sender, RoutedEventArgs e)
         {
             SetStatus("Closed");
             DataComunication.CloseCommunication();
-        }
-
-        private void ProcessFrame(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void CameraCapture_Click(object sender, RoutedEventArgs e)
-        {
-            var capture = new VideoCapture();
-            capture.ImageGrabbed += (s,ex) => {
-                if (capture != null && capture.Ptr != IntPtr.Zero)
-                {
-                    MyImage.Source = BitmapToImageSource(capture.QueryFrame().Bitmap);
-                }
-            };
-            capture.Start();
-        }
-
-        BitmapImage BitmapToImageSource(Bitmap bitmap)
-        {
-            using (MemoryStream memory = new MemoryStream())
-            {
-                bitmap.Save(memory, System.Drawing.Imaging.ImageFormat.Bmp);
-                memory.Position = 0;
-                BitmapImage bitmapimage = new BitmapImage();
-                bitmapimage.BeginInit();
-                bitmapimage.StreamSource = memory;
-                bitmapimage.CacheOption = BitmapCacheOption.OnLoad;
-                bitmapimage.EndInit();
-
-                return bitmapimage;
-            }
         }
     }
 }

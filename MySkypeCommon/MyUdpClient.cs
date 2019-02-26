@@ -20,7 +20,7 @@ namespace MyUdp
 
         public void Send(byte[] data)
         {
-            Client.Send(data, data.Length);
+            Client.SendAsync(data, data.Length);
         }
 
     }

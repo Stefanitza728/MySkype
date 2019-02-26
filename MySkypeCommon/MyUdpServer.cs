@@ -22,16 +22,16 @@ namespace MyUdp
             if (callbackForReceiveData == null)
                 callbackForReceiveData = d => { };
 
-            WaitForClients = Task.Run( () => {
+            WaitForClients = Task.Run(async () => {
                     while(IsOpen)
-                        Receive(callbackForReceiveData);
+                        await Receive(callbackForReceiveData);
             });
         }
 
-        protected void Receive(Action<byte[]> callbackForReceiveData = null)
+        protected async Task Receive(Action<byte[]> callbackForReceiveData = null)
         {
-            var listenEndPoint = new IPEndPoint(IPAddress.Any, Port);
-            byte[] receivedData = Client.Receive(ref listenEndPoint);
+            var udpResult = await Client.ReceiveAsync();
+            byte[] receivedData = udpResult.Buffer;
             callbackForReceiveData(receivedData);
         }
 
