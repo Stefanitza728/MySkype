@@ -42,6 +42,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="MyTcpClient.cs" />
+    <Compile Include="MyTcpConnection.cs" />
+    <Compile Include="MyTcpServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MyUdpClient.cs" />
     <Compile Include="MyUdpConnection.cs" />

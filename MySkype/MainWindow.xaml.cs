@@ -16,7 +16,6 @@ namespace MySkype
     public partial class MainWindow : Window
     {
 
-        
         protected MyDataComunication DataComunication { get; set; }
 
         public MainWindow()
@@ -32,23 +31,23 @@ namespace MySkype
         private void StartButton_Click(object sender, RoutedEventArgs e)
         {
             SetStatus("Running");
-            DataComunication.OpenCommunication(IpInput.Text,(bytes) => {
-                this.Dispatcher.Invoke(() =>
-                {
-                        MyImage.Source = ConvertorHelper.ConvertByteArrayToBitmapImage(
-                                ConvertorHelper.Decompress(bytes)
-                            );
-                });
-            });
+       
 
             var capture = new VideoCapture();
             var frame = new Mat();
             capture.ImageGrabbed += (s, ex) => {
-                frame = capture.QuerySmallFrame();
-                var byteArray = ConvertorHelper.Compress(ConvertorHelper.ConvertByteMapToByteArray(frame.Bitmap));
+                capture.Read(frame);
+                var byteArray = ConvertorHelper.ConvertByteMapToByteArray(frame.Bitmap);
                 DataComunication.SendImage(byteArray);
             };
             capture.Start();
+
+            DataComunication.OpenCommunication(IpInput.Text, (bytes) => {
+                this.Dispatcher.Invoke(() =>
+                {
+                    //MyImage.Source = ConvertorHelper.ConvertByteArrayToBitmapImage(bytes);
+                });
+            });
         }
 
         private void StopButton_Click(object sender, RoutedEventArgs e)

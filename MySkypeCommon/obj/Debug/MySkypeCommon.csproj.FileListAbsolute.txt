@@ -10,3 +10,8 @@ C:\Users\cristian.scaueru\Desktop\MySkype\MySkypeCommon\obj\Debug\MySkypeCommon.
 C:\Users\cristian.scaueru\Desktop\MySkype\MySkypeCommon\obj\Debug\MySkypeCommon.csproj.CoreCompileInputs.cache
 C:\Users\cristian.scaueru\Desktop\MySkype\MySkypeCommon\obj\Debug\MySkypeCommon.dll
 C:\Users\cristian.scaueru\Desktop\MySkype\MySkypeCommon\obj\Debug\MySkypeCommon.pdb
+D:\MySkype\MySkypeCommon\bin\Debug\MySkypeCommon.dll
+D:\MySkype\MySkypeCommon\bin\Debug\MySkypeCommon.pdb
+D:\MySkype\MySkypeCommon\obj\Debug\MySkypeCommon.dll
+D:\MySkype\MySkypeCommon\obj\Debug\MySkypeCommon.pdb
+D:\MySkype\MySkypeCommon\obj\Debug\MySkypeCommon.csprojResolveAssemblyReference.cache

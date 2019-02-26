@@ -11,9 +11,9 @@ namespace MySkypeCommon
     public class MyDataComunication
     {
         protected MyUdpClient VoiceUdpClient { get; set; }
-        protected MyUdpClient ImageUdpClient { get; set; }
+        protected MyTcpClient ImageUdpClient { get; set; }
         protected MyUdpServer VoiceUdpServer { get; set; }
-        protected MyUdpServer ImageUdpServer { get; set; }
+        protected MyTcpServer ImageUdpServer { get; set; }
         protected Task RecordProcess { get; set; }
         protected Task PlayProcess { get; set; }
         protected WaveInEvent WaveIn { get; set; }
@@ -23,8 +23,13 @@ namespace MySkypeCommon
         {
             VoiceUdpClient = new MyUdpClient(ipAddress, 27000);
             VoiceUdpClient.OpenConnection();
-            ImageUdpClient = new MyUdpClient(ipAddress, 27001);
+
+            ImageUdpServer = new MyTcpServer(Constants.LocalLisenerConnection, 27001);
+            ImageUdpServer.AcceptClients(callbackDataForImageProcessing);
+
+            ImageUdpClient = new MyTcpClient(ipAddress, 27001);
             ImageUdpClient.OpenConnection();
+
             IsRecording = true;
             RecordProcess = Task.Run(() => {
                 WaveIn = new WaveInEvent();
@@ -37,7 +42,6 @@ namespace MySkypeCommon
                 WaveIn.StopRecording();
             });
 
-
             var bufferProvider = new BufferedWaveProvider(new WaveFormat(8000, 16, 1));
 
             WaveOut = new WaveOut();
@@ -48,12 +52,9 @@ namespace MySkypeCommon
             VoiceUdpServer.AcceptClients((bytes) => {
                 bufferProvider.AddSamples(bytes, 0, bytes.Length);
             });
-
             PlayProcess = Task.Run(async () => await VoiceUdpServer.WaitForClients);
 
-            ImageUdpServer = new MyUdpServer(Constants.LocalLisenerConnection, 27001);
-
-            ImageUdpServer.AcceptClients(callbackDataForImageProcessing);
+           
             return this;
         }
 
