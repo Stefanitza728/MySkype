@@ -1,5 +1,0 @@
-C:\Users\cristian.scaueru\Desktop\MySkype\MySkypeCommon\obj\Debug\MySkype.Networking.csproj.CoreCompileInputs.cache
-C:\Users\cristian.scaueru\Desktop\MySkype\MySkypeCommon\bin\Debug\MySkype.Networking.dll
-C:\Users\cristian.scaueru\Desktop\MySkype\MySkypeCommon\bin\Debug\MySkype.Networking.pdb
-C:\Users\cristian.scaueru\Desktop\MySkype\MySkypeCommon\obj\Debug\MySkype.Networking.dll
-C:\Users\cristian.scaueru\Desktop\MySkype\MySkypeCommon\obj\Debug\MySkype.Networking.pdb
