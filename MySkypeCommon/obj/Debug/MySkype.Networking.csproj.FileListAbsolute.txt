@@ -1,0 +1,5 @@
+D:\MySkype\MySkypeCommon\bin\Debug\MySkype.Networking.dll
+D:\MySkype\MySkypeCommon\bin\Debug\MySkype.Networking.pdb
+D:\MySkype\MySkypeCommon\obj\Debug\MySkype.Networking.csprojResolveAssemblyReference.cache
+D:\MySkype\MySkypeCommon\obj\Debug\MySkype.Networking.dll
+D:\MySkype\MySkypeCommon\obj\Debug\MySkype.Networking.pdb

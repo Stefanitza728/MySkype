@@ -35,6 +35,12 @@ namespace MyTcp
             {
 
             }
+            catch (System.ObjectDisposedException ex)
+            {
+
+            }
+
+            
         }
 
         public void CloseConnection()

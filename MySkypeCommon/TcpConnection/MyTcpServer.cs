@@ -12,7 +12,6 @@ namespace MyTcp
         public ICollection<Task> ProcessClientsTasks { get; set; }
         protected TcpListener Listener { get; set; }
         protected ICollection<TcpClient> Clients { get; set; }
-        protected ICollection<NetworkStream> ClientsStreams { get; set; }
         protected Action<object> CallbackForReceiveData { get; set; }
         protected bool IsOpen { get; set; }
 
@@ -20,7 +19,6 @@ namespace MyTcp
             Listener = new TcpListener(IPAddress.Parse(address), port);
             Clients = new List<TcpClient>();
             ProcessClientsTasks = new List<Task>();
-            ClientsStreams = new List<NetworkStream>();
         }
 
         public void AcceptClients(Action<object> callbackForReceiveData)
@@ -37,7 +35,6 @@ namespace MyTcp
                     {
                         var client = Listener.AcceptTcpClient();
                         Clients.Add(client);
-                        ClientsStreams.Add(client.GetStream());
                     }
                 }
                 catch(System.Net.Sockets.SocketException ex)
@@ -58,10 +55,11 @@ namespace MyTcp
 
         protected void Receive()
         {
-            foreach(var clientStream in ClientsStreams)
+            foreach(var client in Clients)
             {
                 try
                 {
+                    var clientStream = client.GetStream();
                     var data = Formatter.Deserialize(clientStream);
                     CallbackForReceiveData(data);
                 }
@@ -78,10 +76,6 @@ namespace MyTcp
             foreach(var client in Clients)
             {
                 client.Close();
-            }
-            foreach(var clientStream in ClientsStreams)
-            {
-                clientStream.Close();
             }
             Listener.Stop();
         }

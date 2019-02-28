@@ -46,6 +46,7 @@ namespace MySkype
         {
             SetStatus("Closed");
             DataComunication.CloseCommunication();
+            _viewModel.ImageSource = null;
         }
     }
 }
