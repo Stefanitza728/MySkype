@@ -7,11 +7,11 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Button Content="Start" x:Name="StartButton" HorizontalAlignment="Left" Margin="278,294,0,0" VerticalAlignment="Top" Width="75" Click="StartButton_Click"/>
-        <Button Content="Stop" x:Name="StopButton" HorizontalAlignment="Left" Margin="446,294,0,0" VerticalAlignment="Top" Width="75" Click="StopButton_Click"/>
-        <Label Content="" x:Name="StatusLabel" HorizontalAlignment="Left" Margin="353,113,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="IpInput" HorizontalAlignment="Left" Height="23" Margin="333,251,0,0" TextWrapping="Wrap" Text="127.0.0.1" VerticalAlignment="Top" Width="120"/>
-        <Image x:Name="MyImage" HorizontalAlignment="Left" Height="304" Margin="10,10,0,0" VerticalAlignment="Top" Width="263"/>
+        <Button Content="Start" x:Name="StartButton" HorizontalAlignment="Left" Margin="243,352,0,0" VerticalAlignment="Top" Width="75" Click="StartButton_Click"/>
+        <Button Content="Stop" x:Name="StopButton" HorizontalAlignment="Left" Margin="473,352,0,0" VerticalAlignment="Top" Width="75" Click="StopButton_Click"/>
+        <Label Content="Closed" x:Name="StatusLabel" HorizontalAlignment="Left" Margin="323,375,0,0" VerticalAlignment="Top" Height="12" Width="134"/>
+        <TextBox x:Name="IpInput" HorizontalAlignment="Left" Height="23" Margin="336,352,0,0" TextWrapping="Wrap" Text="127.0.0.1" VerticalAlignment="Top" Width="120"/>
+        <Image x:Name="MyImage" HorizontalAlignment="Left" Height="347" VerticalAlignment="Top" Width="371" Margin="204,0,0,0"/>
 
     </Grid>
 

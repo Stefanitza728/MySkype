@@ -15,15 +15,6 @@ namespace MySkype
 {
     public static class ConvertorHelper
     {
-        public static byte[] ConvertByteMapToByteArray(Bitmap bitmap)
-        {
-            using (MemoryStream memory = new MemoryStream())
-            {
-                bitmap.Save(memory, System.Drawing.Imaging.ImageFormat.Bmp);
-                return memory.ToArray();
-            }
-        }
-
         public static BitmapImage ToBitmapImage(this Bitmap bitmap)
         {
             using (var memory = new MemoryStream())
@@ -54,17 +45,5 @@ namespace MySkype
                 return image;
             }
         }
-        public static byte[] Compress(byte[] data)
-        {
-            using (MemoryStream memory = new MemoryStream())
-            {
-                using (GZipStream gzip = new GZipStream(memory, CompressionMode.Compress, true))
-                {
-                    gzip.Write(data, 0, data.Length);
-                }
-                return memory.ToArray();
-            }
-        }
-
     }
 }

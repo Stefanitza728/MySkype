@@ -129,9 +129,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MySkypeCommon\MySkypeCommon.csproj">
+    <ProjectReference Include="..\MySkypeCommon\MySkype.Networking.csproj">
       <Project>{f13946cc-0d6e-4543-9831-fda08e5a8e64}</Project>
-      <Name>MySkypeCommon</Name>
+      <Name>MySkype.Networking</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

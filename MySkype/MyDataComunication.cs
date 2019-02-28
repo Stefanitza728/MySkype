@@ -1,79 +1,99 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using MyUdp;
+using MySkypeNetworking;
 using NAudio.Wave;
-using System.Drawing;
+using Emgu.CV;
+using MyTcp;
 
-namespace MySkypeCommon
+namespace MySkype
 {
     public class MyDataComunication
     {
-        protected MyUdpClient VoiceUdpClient { get; set; }
-        protected MyTcpClient ImageUdpClient { get; set; }
-        protected MyUdpServer VoiceUdpServer { get; set; }
-        protected MyTcpServer ImageUdpServer { get; set; }
-        protected Task RecordProcess { get; set; }
-        protected Task PlayProcess { get; set; }
+        protected MyUdpClient VoiceClient { get; set; }
+        protected MyTcpClient ImageClient { get; set; }
+        protected MyUdpServer VoiceServer { get; set; }
+        protected MyTcpServer ImageServer { get; set; }
         protected WaveInEvent WaveIn { get; set; }
         protected WaveOut WaveOut { get; set; }
+        protected VideoCapture Capture { get; set; }
         protected bool IsRecording { get; set; }
-        public MyDataComunication OpenCommunication(string ipAddress,Action<Bitmap> callbackDataForImageProcessing)
+        public MyDataComunication OpenCommunication(string ipAddress,Action<object> callbackDataForImageProcessing)
         {
-            VoiceUdpClient = new MyUdpClient(ipAddress, 27000);
-            VoiceUdpClient.OpenConnection();
+            ImageServer = new MyTcpServer(NetworkConstants.LocalLisenerConnection, 27001);
+            ImageClient = new MyTcpClient(ipAddress, 27001);
+            VoiceClient = new MyUdpClient(ipAddress, 27000);
+            VoiceServer = new MyUdpServer(NetworkConstants.LocalLisenerConnection, 27000);
+            ReciveImageAndProcess(callbackDataForImageProcessing);
+            GrabImageAndSend();
+            RecordSoundAndSend();
+            ReceiveAndPlaySound();
+            return this;
+        }
 
-            ImageUdpServer = new MyTcpServer(Constants.LocalLisenerConnection, 27001);
-            ImageUdpServer.AcceptClients(callbackDataForImageProcessing);
+        private void ReciveImageAndProcess(Action<object> callbackDataForImageProcessing)
+        {
+            if (callbackDataForImageProcessing == null)
+                callbackDataForImageProcessing = d => { };
 
-            ImageUdpClient = new MyTcpClient(ipAddress, 27001);
-            ImageUdpClient.OpenConnection();
+            ImageServer.AcceptClients(callbackDataForImageProcessing);
+        }
 
-            IsRecording = true;
-            RecordProcess = Task.Run(() => {
-                WaveIn = new WaveInEvent();
-                WaveIn.DataAvailable += new EventHandler<WaveInEventArgs>((s, x) => {
-                    VoiceUdpClient.Send(x.Buffer);
-                });
-
-                WaveIn.StartRecording();
-                while (IsRecording) ;
-                WaveIn.StopRecording();
-            });
-
+        private void ReceiveAndPlaySound()
+        {
             var bufferProvider = new BufferedWaveProvider(new WaveFormat(8000, 16, 1));
 
             WaveOut = new WaveOut();
             WaveOut.Init(bufferProvider);
             WaveOut.Play();
 
-            VoiceUdpServer = new MyUdpServer(Constants.LocalLisenerConnection, 27000);
-            VoiceUdpServer.AcceptClients((bytes) => {
+            VoiceServer.AcceptClients((bytes) =>
+            {
                 bufferProvider.AddSamples(bytes, 0, bytes.Length);
             });
-            PlayProcess = Task.Run(async () => await VoiceUdpServer.WaitForClients);
-
-           
-            return this;
+            Task.Run(async () => await VoiceServer.ProcessClientTask);
         }
 
-
-        public void SendImage(Bitmap byteArray)
+        private void GrabImageAndSend()
         {
-            ImageUdpClient.Send(byteArray);
+            ImageClient.OpenConnection();
+            Capture = new VideoCapture();
+            var frame = new Mat();
+            Capture.ImageGrabbed += (s, ex) =>
+            {
+                Capture.Read(frame);
+                ImageClient.Send(frame.Bitmap);
+            };
+            Capture.Start();
+        }
+
+        private void RecordSoundAndSend()
+        {
+            VoiceClient.OpenConnection();
+            IsRecording = true;
+            WaveIn = new WaveInEvent();
+            WaveIn.DataAvailable += new EventHandler<WaveInEventArgs>((s, x) =>
+            {
+                VoiceClient.Send(x.Buffer);
+            });
+
+            Task.Run(() =>
+            {
+                WaveIn.StartRecording();
+                while (IsRecording) ;
+                WaveIn.StopRecording();
+            });
         }
 
         public MyDataComunication CloseCommunication()
         {
             IsRecording = false;
+            WaveIn.StopRecording();
             WaveOut.Stop();
-            VoiceUdpClient.CloseConnection();
-            ImageUdpClient.CloseConnection();
-            VoiceUdpServer.CloseConnection();
-            RecordProcess = null;
-            PlayProcess = null;
+            Capture.Stop();
+            ImageClient.CloseConnection();
+            ImageServer.CloseConnection();
+            VoiceClient.CloseConnection();
+            VoiceServer.CloseConnection();
             return this;
         }
     }

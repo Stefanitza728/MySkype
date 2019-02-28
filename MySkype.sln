@@ -5,7 +5,9 @@ VisualStudioVersion = 15.0.28307.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MySkype", "MySkype\MySkype.csproj", "{57CCEB14-A312-4AE4-80D7-E14FCB5D38ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MySkypeCommon", "MySkypeCommon\MySkypeCommon.csproj", "{F13946CC-0D6E-4543-9831-FDA08E5A8E64}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MySkype.Networking", "MySkypeCommon\MySkype.Networking.csproj", "{F13946CC-0D6E-4543-9831-FDA08E5A8E64}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MySkype.Tests", "MySkype.Tests\MySkype.Tests.csproj", "{BD912D63-A295-452D-AF0A-1B35E990D523}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{F13946CC-0D6E-4543-9831-FDA08E5A8E64}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F13946CC-0D6E-4543-9831-FDA08E5A8E64}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F13946CC-0D6E-4543-9831-FDA08E5A8E64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD912D63-A295-452D-AF0A-1B35E990D523}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD912D63-A295-452D-AF0A-1B35E990D523}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD912D63-A295-452D-AF0A-1B35E990D523}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD912D63-A295-452D-AF0A-1B35E990D523}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

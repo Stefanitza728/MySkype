@@ -62,10 +62,8 @@ C:\Users\cristian.scaueru\Desktop\MySkype\MySkype\bin\Debug\MySkype.exe
 C:\Users\cristian.scaueru\Desktop\MySkype\MySkype\bin\Debug\MySkype.pdb
 C:\Users\cristian.scaueru\Desktop\MySkype\MySkype\bin\Debug\Emgu.CV.UI.dll
 C:\Users\cristian.scaueru\Desktop\MySkype\MySkype\bin\Debug\Emgu.CV.World.dll
-C:\Users\cristian.scaueru\Desktop\MySkype\MySkype\bin\Debug\MySkypeCommon.dll
 C:\Users\cristian.scaueru\Desktop\MySkype\MySkype\bin\Debug\NAudio.dll
 C:\Users\cristian.scaueru\Desktop\MySkype\MySkype\bin\Debug\ZedGraph.dll
-C:\Users\cristian.scaueru\Desktop\MySkype\MySkype\bin\Debug\MySkypeCommon.pdb
 C:\Users\cristian.scaueru\Desktop\MySkype\MySkype\bin\Debug\Emgu.CV.UI.xml
 C:\Users\cristian.scaueru\Desktop\MySkype\MySkype\bin\Debug\Emgu.CV.World.xml
 C:\Users\cristian.scaueru\Desktop\MySkype\MySkype\bin\Debug\NAudio.xml
@@ -143,3 +141,5 @@ D:\MySkype\MySkype\obj\Debug\MainWindow.baml
 D:\MySkype\MySkype\obj\Debug\MySkype.g.resources
 D:\MySkype\MySkype\obj\Debug\MySkype.Properties.Resources.resources
 D:\MySkype\MySkype\obj\Debug\MySkype.csproj.GenerateResource.Cache
+C:\Users\cristian.scaueru\Desktop\MySkype\MySkype\bin\Debug\MySkype.Networking.dll
+C:\Users\cristian.scaueru\Desktop\MySkype\MySkype\bin\Debug\MySkype.Networking.pdb

@@ -4,8 +4,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
-using Emgu.CV;
-using MySkypeCommon;
+using Emgu.CV;        
 using NAudio.Wave;
 
 namespace MySkype
@@ -31,19 +30,11 @@ namespace MySkype
         private void StartButton_Click(object sender, RoutedEventArgs e)
         {
             SetStatus("Running");
-       
 
-            var capture = new VideoCapture();
-            var frame = new Mat();
-            capture.ImageGrabbed += (s, ex) => {
-                capture.Read(frame);
-                DataComunication.SendImage(frame.Bitmap);
-            };
-            capture.Start();
-
-            DataComunication.OpenCommunication(IpInput.Text, (img) => {
+            DataComunication.OpenCommunication(IpInput.Text, (obj) => {
                 this.Dispatcher.Invoke(() =>
                 {
+                    var img = (Bitmap)obj;
                     MyImage.Source = ConvertorHelper.ToBitmapImage(img);
                 });
             });
