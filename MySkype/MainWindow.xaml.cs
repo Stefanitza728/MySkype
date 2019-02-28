@@ -14,17 +14,19 @@ namespace MySkype
     /// </summary>
     public partial class MainWindow : Window
     {
-
+        private readonly MainWindowViewModel _viewModel;
         protected MyDataComunication DataComunication { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
             DataComunication = new MyDataComunication();
+            _viewModel = new MainWindowViewModel();
+            DataContext = _viewModel;
         }
         private void SetStatus(string status)
         {
-            this.StatusLabel.Content = status;
+            _viewModel.Status = status;
         }
 
         private void StartButton_Click(object sender, RoutedEventArgs e)
@@ -35,7 +37,7 @@ namespace MySkype
                 this.Dispatcher.Invoke(() =>
                 {
                     var img = (Bitmap)obj;
-                    MyImage.Source = ConvertorHelper.ToBitmapImage(img);
+                    _viewModel.ImageSource = ConvertorHelper.ToBitmapImage(img);
                 });
             });
         }
